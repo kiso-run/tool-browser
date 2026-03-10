@@ -7,8 +7,9 @@ navigate pages, read content, extract links, inspect forms, interact with
 elements, and take screenshots — all via a subprocess that communicates over
 JSON on stdin/stdout.
 
-**Current status:** v0.1.0 — all core actions implemented and tested with
-unit-level mocks. No integration tests against a real browser yet.
+**Current status:** v0.2.0 — all core actions plus UX quality fixes (navigate
+dedup, fill echo, cookie consent auto-dismiss, CAPTCHA detection). Tested with
+unit-level mocks (108 tests). No integration tests against a real browser yet.
 
 ## Architecture
 
@@ -177,7 +178,7 @@ shows page content.
 
 ---
 
-### M7 — CAPTCHA detection in snapshot
+### M7 — CAPTCHA detection in snapshot ✅
 
 **Problem:** Forms with CAPTCHA elements cause fill/submit failures. Kiso
 should detect and warn early.
@@ -217,7 +218,7 @@ CAPTCHA warning.
 - [x] **M4** — Navigate dedup (skip if already on URL)
 - [x] **M5** — Fill action echoes filled value
 - [x] **M6** — Cookie consent auto-dismiss
-- [ ] **M7** — CAPTCHA detection in snapshot
+- [x] **M7** — CAPTCHA detection in snapshot
 
 ## Known Issues / Improvement Ideas
 

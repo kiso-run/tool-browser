@@ -232,10 +232,31 @@ def do_screenshot(page, args: dict, state_file: Path) -> str:
 # Snapshot
 # ---------------------------------------------------------------------------
 
+_CAPTCHA_MARKERS = [
+    "iframe[src*='recaptcha']", "iframe[src*='hcaptcha']",
+    "iframe[src*='turnstile']", ".g-recaptcha", ".h-captcha",
+    "[data-sitekey]",
+]
+
+
+def _detect_captcha(page) -> bool:
+    """Return True if the page contains a known CAPTCHA element."""
+    for sel in _CAPTCHA_MARKERS:
+        if page.query_selector(sel):
+            return True
+    return False
+
+
 def snapshot(page) -> str:
     """Return a numbered list of interactive elements for the current page."""
     elements = page.query_selector_all(_SNAPSHOT_SELECTORS)
     lines = [_page_header(page), ""]
+    if _detect_captcha(page):
+        lines.append(
+            "CAPTCHA detected on this page. "
+            "Form submission may require human verification."
+        )
+        lines.append("")
     for i, el in enumerate(elements, 1):
         lines.append(f"[{i}] {_describe_element(el)}")
     if not elements:
