@@ -5,28 +5,40 @@ version = "0.1.0"
 description = "Headless browser automation via Playwright WebKit"
 
 [kiso.skill]
-summary = "Control a headless WebKit browser: navigate pages, inspect elements, click, fill forms, take screenshots"
+summary = "Control a headless WebKit browser: navigate pages, read content, extract links, inspect forms, click, fill, take screenshots"
 usage_guide = """\
-Use this skill to automate web browsing: navigate to URLs, interact with forms, click buttons, take screenshots.
+Use this skill to automate web browsing: navigate to URLs, read page content, extract links, inspect forms, interact with elements, take screenshots.
 
 Actions:
-  navigate  — go to a URL (required first step)
-  snapshot  — list interactive elements numbered [1], [2], ...
-  click     — click element [N] or CSS selector
-  fill      — type text into element [N] or CSS selector
+  navigate   — go to a URL (required first step)
+  text       — get visible text content (strips nav, ads, boilerplate)
+  links      — get a numbered list of page links with text and href
+  forms      — get structured form field information
+  snapshot   — list interactive elements numbered [1], [2], ...
+  click      — click element [N] or CSS selector
+  fill       — type text into element [N] or CSS selector
   screenshot — save a PNG to the session workspace
 
-Workflow: always start with 'navigate', then 'snapshot' to see the page elements, \
-then use element numbers with 'click' or 'fill'.
+Choosing the right action:
+  - "what is this page about?" → text
+  - "what are the news headlines?" → text
+  - "give me the links" → links
+  - "fill the contact form" → forms, then fill/click
+  - "click on X" → snapshot (to find elements), then click
 
-Example: action='navigate' url='https://example.com', then action='snapshot', \
-then action='fill' element='[2]' value='hello', then action='click' element='[3]'.
+The text, links, and forms actions accept an optional 'url' arg to navigate \
+and extract in one step. They also accept an optional 'selector' arg to scope \
+extraction to a CSS selector (e.g. selector='article' or selector='main').
+
+Workflow: always start with 'navigate' or use 'url' on read actions, then use \
+the appropriate action for the task.
 
 Browser state (cookies, localStorage, session) persists between calls within the same session."""
 
 [kiso.skill.args]
-action = { type = "string", required = true, description = "one of: navigate, snapshot, click, fill, screenshot" }
-url = { type = "string", required = false, description = "URL to navigate to (required for 'navigate')" }
+action = { type = "string", required = true, description = "one of: navigate, text, links, forms, snapshot, click, fill, screenshot" }
+url = { type = "string", required = false, description = "URL to navigate to (required for 'navigate', optional for text/links/forms)" }
+selector = { type = "string", required = false, description = "CSS selector to scope extraction (optional, for text/links/forms)" }
 element = { type = "string", required = false, description = "element reference like [3] or a CSS selector (required for 'click' and 'fill')" }
 value = { type = "string", required = false, description = "text to type into the element (required for 'fill')" }
 

@@ -99,6 +99,44 @@ def test_dispatch_screenshot(tmp_path):
 
 
 # ---------------------------------------------------------------------------
+# dispatch — text / links / forms
+# ---------------------------------------------------------------------------
+
+def test_dispatch_text(tmp_path):
+    state_file = tmp_path / "state.json"
+    save_state(state_file, "https://example.com")
+    ctx, page = make_context()
+    body = MagicMock()
+    body.inner_text.return_value = "Hello world"
+    page.query_selector.side_effect = lambda sel: body if sel == "body" else None
+    page.evaluate.return_value = None
+    result = dispatch("text", {}, ctx, state_file)
+    assert "Hello world" in result
+
+
+def test_dispatch_links(tmp_path):
+    state_file = tmp_path / "state.json"
+    save_state(state_file, "https://example.com")
+    link = MagicMock()
+    link.inner_text.return_value = "Link"
+    link.get_attribute.side_effect = lambda k: {"href": "https://example.com/a"}.get(k)
+    ctx, page = make_context()
+    page.query_selector_all.return_value = [link]
+    result = dispatch("links", {}, ctx, state_file)
+    assert "Link" in result
+    assert "https://example.com/a" in result
+
+
+def test_dispatch_forms(tmp_path):
+    state_file = tmp_path / "state.json"
+    save_state(state_file, "https://example.com")
+    ctx, page = make_context()
+    page.query_selector_all.return_value = []
+    result = dispatch("forms", {}, ctx, state_file)
+    assert "(no forms found)" in result
+
+
+# ---------------------------------------------------------------------------
 # main() — playwright not installed
 # ---------------------------------------------------------------------------
 
