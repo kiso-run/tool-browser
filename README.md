@@ -1,20 +1,20 @@
-# skill-browser
+# tool-browser
 
-Headless WebKit browser automation skill for [kiso](https://github.com/kiso-run/core). Powered by [Playwright](https://playwright.dev/).
+Headless WebKit browser automation tool for [kiso](https://github.com/kiso-run/core). Powered by [Playwright](https://playwright.dev/).
 
 ## Installation
 
 ```bash
-kiso skill install browser
+kiso tool install browser
 ```
 
-This clones the repo to `~/.kiso/skills/browser/`, then runs `deps.sh` which installs Python dependencies (`uv sync`), system libraries needed by WebKit (`playwright install-deps`), and the WebKit browser binary (`playwright install webkit`).
+This clones the repo to `~/.kiso/tools/browser/`, then runs `deps.sh` which installs Python dependencies (`uv sync`), system libraries needed by WebKit (`playwright install-deps`), and the WebKit browser binary (`playwright install webkit`).
 
 ## How it works
 
-1. The planner decides a browser interaction is needed and emits a `skill` task.
+1. The planner decides a browser interaction is needed and emits a `tool` task.
 2. Kiso runs `run.py` as a subprocess, passing the action and arguments as JSON on stdin.
-3. The skill launches a headless WebKit browser with a **persistent profile** stored in `workspace/.browser/profile/` — cookies, localStorage, and session data survive between calls within the same session.
+3. The tool launches a headless WebKit browser with a **persistent profile** stored in `workspace/.browser/profile/` — cookies, localStorage, and session data survive between calls within the same session.
 4. The current page URL is tracked in `workspace/.browser/state.json` so the browser can restore context across invocations.
 
 ## Workflow

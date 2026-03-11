@@ -1,8 +1,8 @@
-# skill-browser — Development Plan
+# tool-browser — Development Plan
 
 ## Overview
 
-Headless WebKit browser automation skill for kiso. Allows the planner to
+Headless WebKit browser automation tool for kiso. Allows the planner to
 navigate pages, read content, extract links, inspect forms, interact with
 elements, and take screenshots — all via a subprocess that communicates over
 JSON on stdin/stdout.
@@ -14,7 +14,7 @@ unit-level mocks (108 tests). No integration tests against a real browser yet.
 ## Architecture
 
 ```
-skill-browser/
+tool-browser/
 ├── kiso.toml          # manifest: args schema, deps, usage guide
 ├── pyproject.toml     # Python deps (playwright >=1.44, pytest)
 ├── run.py             # entry point + all action logic (~390 LOC)
@@ -29,7 +29,7 @@ skill-browser/
 
 **Key design decisions:**
 
-- Single-file `run.py` — keeps the skill self-contained; no internal packages.
+- Single-file `run.py` — keeps the tool self-contained; no internal packages.
 - Persistent browser profile (`workspace/.browser/profile/`) — cookies and
   session survive between calls within the same kiso session.
 - State file (`workspace/.browser/state.json`) — tracks current URL so the
@@ -53,7 +53,7 @@ skill-browser/
 
 ## Milestones
 
-### M1 — Initial skill scaffold ✅
+### M1 — Initial tool scaffold ✅
 
 **Problem:** kiso had no browser automation capability.
 
@@ -71,7 +71,7 @@ skill-browser/
 
 **Change:**
 1. Added `conftest.py` with mock builders (`make_mock_page`,
-   `make_mock_element`, `make_input`, `run_skill`)
+   `make_mock_element`, `make_input`, `run_tool`)
 2. `test_dispatch.py` — covers dispatch routing, navigate, snapshot, click,
    fill, screenshot, text/links/forms delegation, unknown-action error,
    missing-playwright error path
@@ -212,7 +212,7 @@ CAPTCHA warning.
 
 ## Milestone Checklist
 
-- [x] **M1** — Initial skill scaffold
+- [x] **M1** — Initial tool scaffold
 - [x] **M2** — Test suite
 - [x] **M3** — Read actions: inline URL and selector support
 - [x] **M4** — Navigate dedup (skip if already on URL)

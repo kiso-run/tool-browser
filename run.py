@@ -1,6 +1,6 @@
-"""skill-browser — headless WebKit automation via Playwright.
+"""tool-browser — headless WebKit automation via Playwright.
 
-Subprocess contract (same as all kiso skills):
+Subprocess contract (same as all kiso tools):
   stdin:  JSON {args, session, workspace, session_secrets, plan_outputs}
   stdout: result text on success
   stderr: error description on failure
@@ -42,7 +42,7 @@ def main() -> None:
         from playwright.sync_api import sync_playwright  # noqa: PLC0415
     except ImportError:
         print(
-            "Playwright is not installed. Re-run: kiso skill install skill-browser",
+            "Playwright is not installed. Re-run: kiso tool install tool-browser",
             file=sys.stderr,
         )
         sys.exit(1)

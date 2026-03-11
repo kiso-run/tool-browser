@@ -1,13 +1,13 @@
 [kiso]
-type = "skill"
+type = "tool"
 name = "browser"
 version = "0.1.0"
 description = "Headless browser automation via Playwright WebKit"
 
-[kiso.skill]
+[kiso.tool]
 summary = "Control a headless WebKit browser: navigate pages, read content, extract links, inspect forms, click, fill, take screenshots"
 usage_guide = """\
-Use this skill to automate web browsing: navigate to URLs, read page content, extract links, inspect forms, interact with elements, take screenshots.
+Use this tool to automate web browsing: navigate to URLs, read page content, extract links, inspect forms, interact with elements, take screenshots.
 
 Actions:
   navigate   — go to a URL (required first step)
@@ -35,7 +35,7 @@ the appropriate action for the task.
 
 Browser state (cookies, localStorage, session) persists between calls within the same session."""
 
-[kiso.skill.args]
+[kiso.tool.args]
 action = { type = "string", required = true, description = "one of: navigate, text, links, forms, snapshot, click, fill, screenshot" }
 url = { type = "string", required = false, description = "URL to navigate to (required for 'navigate', optional for text/links/forms)" }
 selector = { type = "string", required = false, description = "CSS selector to scope extraction (optional, for text/links/forms)" }
