@@ -427,7 +427,7 @@ should be properly closed.
 - [x] **M10** — Functional tests (subprocess contract)
 - [x] **M11** — SIGTERM graceful shutdown test
 - [x] **M12** — kiso.toml validation test
-- [ ] **M13** — State file race condition test
+- [x] **M13** — State file race condition test
 
 ### M12 — kiso.toml validation test
 
@@ -459,8 +459,8 @@ corrupt `state.json`. No test verifies this scenario.
 3. This is a documentation-of-risk test: since `write_text` is not atomic,
    document the limitation
 
-- [ ] Implement concurrent state write test
-- [ ] Document limitation in Known Issues if confirmed
+- [x] Implement concurrent state write test
+- [x] Document limitation in Known Issues if confirmed
 
 ---
 
