@@ -408,8 +408,8 @@ should be properly closed.
 3. Assert: process exits 0 (graceful)
 4. Assert: no orphan WebKit processes left
 
-- [ ] Implement SIGTERM test (skip if no Playwright)
-- [ ] Passes on Linux
+- [x] Implement SIGTERM test (skip if no Playwright)
+- [x] Passes on Linux
 
 ---
 
@@ -425,7 +425,7 @@ should be properly closed.
 - [x] **M8** — Usage guide rewrite + operation timeouts
 - [x] **M9** — Complete test coverage
 - [x] **M10** — Functional tests (subprocess contract)
-- [ ] **M11** — SIGTERM graceful shutdown test
+- [x] **M11** — SIGTERM graceful shutdown test
 
 ## Known Issues / Improvement Ideas
 
