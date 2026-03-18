@@ -9,7 +9,7 @@ JSON on stdin/stdout.
 
 **Current status:** v0.2.0 — all core actions plus UX quality fixes (navigate
 dedup, fill echo, cookie consent auto-dismiss, CAPTCHA detection). Tested with
-unit-level mocks (108 tests). No integration tests against a real browser yet.
+unit-level mocks (133 tests). No integration tests against a real browser yet.
 
 ## Architecture
 
@@ -220,6 +220,7 @@ CAPTCHA warning.
 - [x] **M6** — Cookie consent auto-dismiss
 - [x] **M7** — CAPTCHA detection in snapshot
 - [x] **M8** — Usage guide rewrite + operation timeouts
+- [x] **M9** — Complete test coverage
 
 ### M8 — Usage guide rewrite + operation timeouts
 
@@ -272,6 +273,46 @@ e `el.fill()` non hanno timeout — se l'elemento non è interagibile, stallo.
 - [x] Aggiungere `timeout=10000` a `el.click()` e `el.fill()`
 - [x] Aggiornare test se necessario
 - [x] Estrarre costanti timeout + handler SIGALRM come funzione named (da /simplify)
+
+---
+
+### M9 — Complete test coverage ✅
+
+**Problem:** Several core functions in `run.py` lacked dedicated unit tests:
+`extract_text()` noise/container logic, `extract_links()` filtering/dedup,
+`resolve_element()` ref resolution, `_page_header()`, and timeout constants.
+Total test count was 109; gaps left regressions possible.
+
+**Files:** 5 new test files in `tests/`
+
+**Changes:**
+
+1. `tests/test_extract_text.py` (8 tests) — CSS selector scoping, selector not
+   found error, noise removal via `page.evaluate`, content container priority
+   (`main` → `article` → `[role='main']`), body fallback, empty body, empty
+   container skip.
+
+2. `tests/test_extract_links.py` (8 tests) — filters `javascript:` and `#`
+   hrefs, deduplicates same href, filters empty-text links, scopes to CSS
+   selector, defaults to `body` scope, no-links message, header inclusion.
+
+3. `tests/test_resolve_element.py` (6 tests) — `[1]` bracket ref, bare `2`
+   number, out-of-range error with element count, `[0]` error, CSS selector via
+   `query_selector`, CSS not found error.
+
+4. `tests/test_timeouts.py` (1 test) — verifies all 6 timeout constants match
+   expected values.
+
+5. `tests/test_page_header.py` (1 test) — verifies `_page_header()` output
+   format.
+
+**Result:** 133 tests total (24 new), all passing.
+
+- [x] Add `test_extract_text.py`
+- [x] Add `test_extract_links.py`
+- [x] Add `test_resolve_element.py`
+- [x] Add `test_timeouts.py`
+- [x] Add `test_page_header.py`
 
 ---
 
