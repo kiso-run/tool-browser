@@ -385,11 +385,11 @@ Tests that don't need a real browser (error paths) should always run.
     - Serve a page that hangs (never responds)
     - Assert: process exits 1 within ~65s, stderr contains "timed out"
 
-- [ ] Create HTML fixture files for local test server
-- [ ] Create `_serve_fixture()` helper (starts http.server, returns URL, cleans up)
-- [ ] Implement error path tests (always run, no browser needed)
-- [ ] Implement browser-dependent tests (skippable)
-- [ ] All tests pass (existing 133 + new functional)
+- [x] Create HTML fixture files for local test server
+- [x] Create `_serve_fixture()` helper (starts http.server, returns URL, cleans up)
+- [x] Implement error path tests (always run, no browser needed)
+- [x] Implement browser-dependent tests (skippable)
+- [x] All tests pass (existing 133 + new functional)
 
 ---
 
@@ -424,7 +424,7 @@ should be properly closed.
 - [x] **M7** — CAPTCHA detection in snapshot
 - [x] **M8** — Usage guide rewrite + operation timeouts
 - [x] **M9** — Complete test coverage
-- [ ] **M10** — Functional tests (subprocess contract)
+- [x] **M10** — Functional tests (subprocess contract)
 - [ ] **M11** — SIGTERM graceful shutdown test
 
 ## Known Issues / Improvement Ideas
