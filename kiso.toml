@@ -6,6 +6,7 @@ description = "Headless browser automation via Playwright WebKit"
 
 [kiso.tool]
 summary = "Navigate to specific URLs, inspect page elements, click, fill forms, take screenshots"
+consumes = ["web_page"]
 usage_guide = """\
 This tool is for navigating to SPECIFIC known URLs and interacting with those pages. \
 NEVER use it for web searches — use the search task type or the websearch tool instead. \
