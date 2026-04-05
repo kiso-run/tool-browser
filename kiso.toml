@@ -1,7 +1,7 @@
 [kiso]
 type = "tool"
 name = "browser"
-version = "0.1.0"
+version = "0.2.0"
 description = "Headless browser automation via Playwright WebKit"
 
 [kiso.tool]
@@ -13,10 +13,10 @@ NEVER use it for web searches — use the search task type or the websearch tool
 Browser is slow, may hit CAPTCHAs, and has no search capability.
 
 Actions:
-  navigate   — go to a specific URL (required first step)
+  navigate   — go to a specific URL. Requires url.
   snapshot   — list interactive elements numbered [1], [2], ...
-  click      — click element [N] or CSS selector
-  fill       — type text into element [N] or CSS selector
+  click      — click element [N] or CSS selector. Requires element.
+  fill       — type text into element [N] or CSS selector. Requires element and value.
   text       — get visible text content (strips nav, ads, boilerplate)
   links      — get a numbered list of page links with text and href
   forms      — get structured form field information

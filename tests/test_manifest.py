@@ -27,3 +27,12 @@ def test_required_sections_exist():
     assert "kiso" in data
     assert "tool" in data["kiso"]
     assert "args" in data["kiso"]["tool"]
+
+
+def test_usage_guide_mentions_required_action_args():
+    with open(KISO_TOML, "rb") as f:
+        data = tomllib.load(f)
+    guide = data["kiso"]["tool"]["usage_guide"]
+    assert "Requires url" in guide
+    assert "Requires element" in guide
+    assert "Requires element and value" in guide

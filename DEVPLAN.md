@@ -523,7 +523,7 @@ this to auto-route session workspace files to the right tool. Vocabulary: `image
 
 **Changes:**
 - [x] Add `consumes = ["web_page"]` to `[kiso.tool]` in kiso.toml
-- [ ] Enrich `usage_guide` with concrete arg examples for each action
-- [ ] Add `tests/test_validator.py` for `navigate.url`, `click.element`, `fill.element`, and `fill.value`
-- [ ] Extend `tests/test_manifest.py` with concise planner-facing required-arg assertions
-- [ ] Keep the manifest/version aligned with the `0.2.x` line when this structural change lands
+- [x] Enrich `usage_guide` with concrete arg examples for each action
+- [x] Add `tests/test_validator.py` for `navigate.url`, `click.element`, `fill.element`, and `fill.value`
+- [x] Extend `tests/test_manifest.py` with concise planner-facing required-arg assertions
+- [x] Keep the manifest/version aligned with the `0.2.x` line when this structural change lands
