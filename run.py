@@ -1,4 +1,4 @@
-"""tool-browser — headless WebKit automation via Playwright.
+"""wrapper-browser — headless WebKit automation via Playwright.
 
 Subprocess contract (same as all kiso tools):
   stdin:  JSON {args, session, workspace, session_secrets, plan_outputs}
@@ -58,7 +58,7 @@ def main() -> None:
         from playwright.sync_api import sync_playwright  # noqa: PLC0415
     except ImportError:
         print(
-            "Playwright is not installed. Re-run: kiso tool install tool-browser",
+            "Playwright is not installed. Re-run: kiso wrapper install tool-browser",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -73,7 +73,7 @@ def main() -> None:
             if "Executable doesn't exist" in str(exc):
                 print(
                     "Browser binaries missing. Reinstall with: "
-                    "kiso tool remove browser && kiso tool install browser",
+                    "kiso wrapper remove browser && kiso wrapper install browser",
                     file=sys.stderr,
                 )
                 sys.exit(1)

@@ -1,5 +1,5 @@
 [project]
-name = "tool-browser"
+name = "wrapper-browser"
 version = "0.1.0"
 description = "Headless browser automation tool for Kiso"
 requires-python = ">=3.11"

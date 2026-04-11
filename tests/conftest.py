@@ -25,7 +25,7 @@ def make_input():
 
 
 @pytest.fixture
-def run_tool():
+def run_wrapper():
     """Run run.py as a subprocess with controlled stdin."""
     def _run(input_data, env=None):
         import os

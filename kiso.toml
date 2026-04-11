@@ -1,10 +1,10 @@
 [kiso]
-type = "tool"
+type = "wrapper"
 name = "browser"
 version = "0.1.0"
 description = "Headless browser automation via Playwright WebKit"
 
-[kiso.tool]
+[kiso.wrapper]
 summary = "Navigate to specific URLs, inspect page elements, click, fill forms, take screenshots"
 consumes = ["web_page"]
 usage_guide = """\
@@ -30,7 +30,7 @@ then action='fill' element='[2]' value='hello', then action='click' element='[3]
 
 Browser state (cookies, localStorage, session) persists between calls within the same session."""
 
-[kiso.tool.args]
+[kiso.wrapper.args]
 action = { type = "string", required = true, description = "one of: navigate, text, links, forms, snapshot, click, fill, screenshot" }
 url = { type = "string", required = false, description = "URL to navigate to (required for 'navigate', optional for text/links/forms)" }
 selector = { type = "string", required = false, description = "CSS selector to scope extraction (optional, for text/links/forms)" }

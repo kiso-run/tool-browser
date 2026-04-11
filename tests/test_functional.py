@@ -106,7 +106,7 @@ def _start_slow_server(delay: float = 120.0, port: int = 0):
 # Subprocess helper
 # ---------------------------------------------------------------------------
 
-def _run_tool(input_data, *, workspace: str | None = None, timeout: int = 70):
+def _run_wrapper(input_data, *, workspace: str | None = None, timeout: int = 70):
     """Run run.py as subprocess. Returns CompletedProcess."""
     if isinstance(input_data, dict):
         stdin_text = json.dumps(input_data)
@@ -142,22 +142,22 @@ class TestErrorPaths:
 
     def test_unknown_action(self):
         """Unknown action exits 1 (either at playwright import or dispatch)."""
-        result = _run_tool(_make_input("nope"), timeout=15)
+        result = _run_wrapper(_make_input("nope"), timeout=15)
         assert result.returncode == 1
 
     def test_malformed_input_invalid_json(self):
         """Invalid JSON on stdin exits 1."""
-        result = _run_tool("not json at all", timeout=15)
+        result = _run_wrapper("not json at all", timeout=15)
         assert result.returncode == 1
 
     def test_malformed_input_missing_args(self):
         """Missing 'args' key exits 1."""
-        result = _run_tool({}, timeout=15)
+        result = _run_wrapper({}, timeout=15)
         assert result.returncode == 1
 
     def test_malformed_input_empty_stdin(self):
         """Empty stdin exits 1."""
-        result = _run_tool("", timeout=15)
+        result = _run_wrapper("", timeout=15)
         assert result.returncode == 1
 
 
@@ -185,24 +185,24 @@ class TestHappyPaths:
 
     def test_navigate_happy_path(self):
         """Navigate to local fixture, stdout contains page title, exit 0."""
-        result = _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
+        result = _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
         assert result.returncode == 0
         assert "Test Page" in result.stdout
 
     def test_state_persistence(self):
         """After navigate, text action without url uses saved state."""
         # First call: navigate
-        r1 = _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
+        r1 = _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
         assert r1.returncode == 0
         # Second call: text (no url arg)
-        r2 = _run_tool(self._input("text"))
+        r2 = _run_wrapper(self._input("text"))
         assert r2.returncode == 0
         assert "Hello World" in r2.stdout
 
     def test_screenshot_saves_file(self):
         """Screenshot action creates a file on disk."""
-        _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
-        result = _run_tool(self._input("screenshot"))
+        _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
+        result = _run_wrapper(self._input("screenshot"))
         assert result.returncode == 0
         screenshot_path = Path(self.workspace) / "screenshot.png"
         assert screenshot_path.exists()
@@ -210,38 +210,38 @@ class TestHappyPaths:
 
     def test_snapshot_and_click(self):
         """Snapshot returns numbered elements; click works by ref."""
-        _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
-        r_snap = _run_tool(self._input("snapshot"))
+        _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
+        r_snap = _run_wrapper(self._input("snapshot"))
         assert r_snap.returncode == 0
         assert "[1]" in r_snap.stdout
 
-        r_click = _run_tool(self._input("click", element="1"))
+        r_click = _run_wrapper(self._input("click", element="1"))
         assert r_click.returncode == 0
         assert "Clicked" in r_click.stdout
 
     def test_forms_and_fill(self):
         """Forms action returns fields; fill echoes the value."""
-        _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
-        r_forms = _run_tool(self._input("forms"))
+        _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
+        r_forms = _run_wrapper(self._input("forms"))
         assert r_forms.returncode == 0
         assert "Enter text" in r_forms.stdout or "field1" in r_forms.stdout
 
-        r_fill = _run_tool(self._input("fill", element="input[name='field1']", value="hello"))
+        r_fill = _run_wrapper(self._input("fill", element="input[name='field1']", value="hello"))
         assert r_fill.returncode == 0
         assert "with: 'hello'" in r_fill.stdout
 
     def test_navigate_dedup(self):
         """Second navigate to same URL returns 'Already on'."""
         url = f"{self.base_url}/page.html"
-        _run_tool(self._input("navigate", url=url))
-        r2 = _run_tool(self._input("navigate", url=url))
+        _run_wrapper(self._input("navigate", url=url))
+        r2 = _run_wrapper(self._input("navigate", url=url))
         assert r2.returncode == 0
         assert "Already on" in r2.stdout
 
     def test_links(self):
         """Links action extracts links from fixture page."""
-        _run_tool(self._input("navigate", url=f"{self.base_url}/page.html"))
-        result = _run_tool(self._input("links"))
+        _run_wrapper(self._input("navigate", url=f"{self.base_url}/page.html"))
+        result = _run_wrapper(self._input("links"))
         assert result.returncode == 0
         assert "Other Link" in result.stdout
 
